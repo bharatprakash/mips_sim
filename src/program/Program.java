@@ -32,8 +32,8 @@ import instructions.SW;
 
 public class Program {
 	
-	public static int instructionCount;
-	public static HashMap<Integer, Instruction> InstructionList = new HashMap<Integer, Instruction>();
+	public int instructionCount;
+	public HashMap<Integer, Instruction> InstructionList = new HashMap<Integer, Instruction>();
 	public static HashMap<String, Integer> LabelMap = new HashMap<String, Integer>();
 	
 	public void parse(String filePath) throws FileNotFoundException, IOException,
@@ -202,16 +202,16 @@ public class Program {
 			break;
 		case "BEQ":
 			operands =  getOperands(tokens);
-			destinationRegister = operands[0];
-			sourceRegister1 = operands[1];
-			sourceRegister2 = operands[2];
+			destinationRegister = operands[2];
+			sourceRegister1 = operands[0];
+			sourceRegister2 = operands[1];
 			inst = new BEQ(sourceRegister1,sourceRegister2, destinationRegister);
 			break;
 		case "BNE":
 			operands =  getOperands(tokens);
-			destinationRegister = operands[0];
-			sourceRegister1 = operands[1];
-			sourceRegister2 = operands[2];
+			destinationRegister = operands[2];
+			sourceRegister1 = operands[0];
+			sourceRegister2 = operands[1];
 			inst = new BNE(sourceRegister1,sourceRegister2, destinationRegister);
 			break;
 		case "HLT":
