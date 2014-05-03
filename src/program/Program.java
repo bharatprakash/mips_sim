@@ -1,17 +1,12 @@
-package processor;
+package program;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
 import Exception.InCorrectInstructionFormat;
-//import FunctionalUnit.AdditionUnit;
-//import FunctionalUnit.DivisionUnit;
-//import FunctionalUnit.IntegerUnit;
-//import FunctionalUnit.MultiplicationUnit;
 import InstructionClasses.ADDD;
 import InstructionClasses.AND;
 import InstructionClasses.ANDI;
@@ -34,68 +29,28 @@ import InstructionClasses.SD;
 import InstructionClasses.SUBD;
 import InstructionClasses.SW;
 
-public class Parser {
 
-	// Information about the data in memory from data.txt
-	public static int DataOfData[] = new int[32];
-	public int dataDataSize = 0;
-
-	// Information about the data in registers from reg.txt
-	public static int RegisterData[] = new int[32];
-	public int registerDataSize = 0;
-
-	// Configuration File parameters
-	public static int adderClockCycle = 0;
-	public static int multiplierClockCycle = 0;
-	public static int dividerCockCycle = 0;
-	public static int memoryClockCycle = 0;
-	public static int iCacheClockCycle = 0;
-	public static int dCacheClockCycle = 0;
-	public static boolean isAdderPipelined = false;
-	public static boolean isMultiplierPipelined = false;
-	public static boolean isDividerPipelined = false;
-
-	// Instruction file parameters
-	public static ArrayList<Instruction> instructionList = new ArrayList<Instruction>();
-	public static HashMap<String, Integer> loopMap = new HashMap<>();
-	public int instructionCount = 0;
-
-	// Functional Units   
-	/*
-	public static IntegerUnit integerUnit;
-	public static AdditionUnit additionUnit;
-	public static MultiplicationUnit multiplicationUnit;
-	public static DivisionUnit divisionUnit;
-	*/
+public class Program {
 	
+	public static int instructionCount;
+	public static HashMap<Integer, Instruction> InstructionList = new HashMap<Integer, Instruction>();
+	public static HashMap<String, Integer> LabelMap = new HashMap<String, Integer>();
 	
-	public void parse(String fileName, boolean isDataFile, int filePointer)
-			throws FileNotFoundException, IOException,
+	public void parse(String filePath) throws FileNotFoundException, IOException,
 			InCorrectInstructionFormat {
-
+		
 		FileReader file = null;
 		String line;
 		Scanner scanner = null;
 		try {
-			scanner = new Scanner(getClass().getResourceAsStream(fileName));
+			scanner = new Scanner(getClass().getResourceAsStream(filePath));
 			while (scanner.hasNext()) {
 				line = scanner.nextLine();
-				switch (filePointer) {
-				case 1:
-					parseInstructionFile(line);
-					break;
-				case 2:
-					parseConfigurationFile(line);
-					break;
-				case 3:
-					convertBinaryToDecimal(line, isDataFile);
-					break;
-				case 4:
-					convertBinaryToDecimal(line, isDataFile);
-					break;
-				}
-
+				
+				parseInstructionFile(line);
+				
 			}
+			
 		} finally {
 			if (file != null) {
 				try {
@@ -106,8 +61,8 @@ public class Parser {
 				}
 			}
 		}
-	}
-
+	}	
+	
 	private void parseInstructionFile(String line)
 			throws InCorrectInstructionFormat {
 		Instruction inst = null;
@@ -120,7 +75,7 @@ public class Parser {
 			String loopName = line.substring(0, index);
 			line = line.substring(index + 1);
 			line = line.trim();
-			loopMap.put(loopName.trim(), instructionCount);
+			LabelMap.put(loopName.trim(), instructionCount);
 		}
 
 		/* SPLIT FOR RECOGNISING INSTRUCTION */
@@ -192,10 +147,11 @@ public class Parser {
 			break;
 
 		}
-		instructionList.add(inst);
+		
+		InstructionList.put(instructionCount,inst);
 		instructionCount++;
 	}
-
+	
 	private String[] getOperands(String[] tokens)
 			throws InCorrectInstructionFormat {
 
@@ -209,7 +165,7 @@ public class Parser {
 				/* VALIDATE ARG */
 				if (arg.charAt(0) != 'R' && arg.charAt(0) != 'F') {
 					if (arg.charAt(0) < '0' || arg.charAt(0) > '9')
-						if (!loopMap.containsKey(arg))
+						if (!LabelMap.containsKey(arg))
 							if (!tokens[0].equalsIgnoreCase("BEQ")
 									&& !tokens[0].equalsIgnoreCase("BNE")
 									&& !tokens[0].equalsIgnoreCase("J"))
@@ -222,80 +178,6 @@ public class Parser {
 		return arg1;
 	}
 
-	public void convertBinaryToDecimal(String line, boolean isMemorydata) {
-		if (isMemorydata) {
-			DataOfData[dataDataSize] = Integer.parseInt(line, 2);
-			dataDataSize++;
-		} else {
-			RegisterData[registerDataSize] = Integer.parseInt(line, 2);
-			registerDataSize++;
-		}
-	}
-
-	public void parseConfigurationFile(String line) {
-		String s[];
-		line = line.replace(',', ':');
-		s = line.split(":");
-
-		for (int i = 0; i < s.length; i++) {
-			String key = s[i].trim().toUpperCase();
-
-			switch (key) {
-			case "FP ADDER":
-				i++;
-				adderClockCycle = Integer.parseInt(s[i].trim());
-				i++;
-				s[i] = s[i].trim();
-				isAdderPipelined = s[i].equalsIgnoreCase("yes");
-
-				break;
-
-			case "FP MULTIPLIER":
-				i++;
-				multiplierClockCycle = Integer.parseInt(s[i].trim());
-				i++;
-				s[i] = s[i].trim();
-				isMultiplierPipelined = s[i].equalsIgnoreCase("yes");
-				break;
-
-			case "FP DIVIDER":
-				i++;
-				dividerCockCycle = Integer.parseInt(s[i].trim());
-				i++;
-				s[i] = s[i].trim();
-				isDividerPipelined = s[i].equalsIgnoreCase("yes");
-				break;
-
-			case "MAIN MEMORY":
-				i++;
-				memoryClockCycle = Integer.parseInt(s[i].trim());
-				break;
-
-			case "I-CACHE":
-				i++;
-				iCacheClockCycle = Integer.parseInt(s[i].trim());
-				break;
-
-			case "D-CACHE":
-				i++;
-				dCacheClockCycle = Integer.parseInt(s[i].trim());
-				break;
-			default:
-				break;
-			}
-		}
-	}
-
-	/*
-	public void setFunctionalUnitParameters() {
-		integerUnit = new IntegerUnit(false, 2, false);
-		multiplicationUnit = new MultiplicationUnit(isMultiplierPipelined,
-				multiplierClockCycle, false);
-		divisionUnit = new DivisionUnit(isDividerPipelined, dividerCockCycle, false);
-		additionUnit = new AdditionUnit(isAdderPipelined, adderClockCycle, false);
-	}
-	*/
 	
-	
-	
+
 }

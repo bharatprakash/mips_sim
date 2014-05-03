@@ -118,7 +118,7 @@ public class Processor {
 			parser.parse(DATA_FILE, true, 4);
 
 			parser.parse(INSTRUCTION_FILE, false, 1);
-			parser.setFunctionalUnitParameters();
+			//parser.setFunctionalUnitParameters();
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
