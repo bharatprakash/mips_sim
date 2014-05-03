@@ -1,13 +1,20 @@
 package FunctionalUnit;
 
-import InstructionClasses.Instruction;
+import instructions.Instruction;
 
 public class FPAddUnit extends FuncionalUnit{
 	
 	
-	Instruction[] InstPipeline;
+	Instruction[] InstPipeline = new Instruction[5];
 	
 	
+	
+	
+	
+	@Override
+	public void processFunctionalUnit(){
+		
+	}
 	
 
 }

@@ -1,14 +1,17 @@
 package FunctionalUnit;
 
-import InstructionClasses.Instruction;
+import instructions.Instruction;
 
 
-public class FuncionalUnit {
+public abstract class FuncionalUnit {
 	
 	boolean isPipelined;
 	boolean isAvailable;
 	int clockCyclesRequired;
-		
 	
-
+	
+	
+	public abstract void processFunctionalUnit();
+	
+	
 }

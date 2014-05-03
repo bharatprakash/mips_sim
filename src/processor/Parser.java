@@ -12,27 +12,27 @@ import Exception.InCorrectInstructionFormat;
 //import FunctionalUnit.DivisionUnit;
 //import FunctionalUnit.IntegerUnit;
 //import FunctionalUnit.MultiplicationUnit;
-import InstructionClasses.ADDD;
-import InstructionClasses.AND;
-import InstructionClasses.ANDI;
-import InstructionClasses.BEQ;
-import InstructionClasses.BNE;
-import InstructionClasses.DADD;
-import InstructionClasses.DADDI;
-import InstructionClasses.DIVD;
-import InstructionClasses.DSUB;
-import InstructionClasses.DSUBI;
-import InstructionClasses.HLT;
-import InstructionClasses.Instruction;
-import InstructionClasses.J;
-import InstructionClasses.LD;
-import InstructionClasses.LW;
-import InstructionClasses.MULD;
-import InstructionClasses.OR;
-import InstructionClasses.ORI;
-import InstructionClasses.SD;
-import InstructionClasses.SUBD;
-import InstructionClasses.SW;
+import instructions.ADDD;
+import instructions.AND;
+import instructions.ANDI;
+import instructions.BEQ;
+import instructions.BNE;
+import instructions.DADD;
+import instructions.DADDI;
+import instructions.DIVD;
+import instructions.DSUB;
+import instructions.DSUBI;
+import instructions.HLT;
+import instructions.Instruction;
+import instructions.J;
+import instructions.LD;
+import instructions.LW;
+import instructions.MULD;
+import instructions.OR;
+import instructions.ORI;
+import instructions.SD;
+import instructions.SUBD;
+import instructions.SW;
 
 public class Parser {
 
@@ -108,6 +108,7 @@ public class Parser {
 		}
 	}
 
+	
 	private void parseInstructionFile(String line)
 			throws InCorrectInstructionFormat {
 		Instruction inst = null;
@@ -127,6 +128,7 @@ public class Parser {
 		tokens = line.split("[\\s]", 2);
 		String opcode = tokens[0].trim().toUpperCase();
 
+		/*
 		switch (opcode) {
 		case "LW":
 			inst = new LW("LW", getOperands(tokens));
@@ -192,10 +194,14 @@ public class Parser {
 			break;
 
 		}
+		
+		*/
 		instructionList.add(inst);
 		instructionCount++;
 	}
 
+	
+	
 	private String[] getOperands(String[] tokens)
 			throws InCorrectInstructionFormat {
 

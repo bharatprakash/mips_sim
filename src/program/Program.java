@@ -7,27 +7,27 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 import Exception.InCorrectInstructionFormat;
-import InstructionClasses.ADDD;
-import InstructionClasses.AND;
-import InstructionClasses.ANDI;
-import InstructionClasses.BEQ;
-import InstructionClasses.BNE;
-import InstructionClasses.DADD;
-import InstructionClasses.DADDI;
-import InstructionClasses.DIVD;
-import InstructionClasses.DSUB;
-import InstructionClasses.DSUBI;
-import InstructionClasses.HLT;
-import InstructionClasses.Instruction;
-import InstructionClasses.J;
-import InstructionClasses.LD;
-import InstructionClasses.LW;
-import InstructionClasses.MULD;
-import InstructionClasses.OR;
-import InstructionClasses.ORI;
-import InstructionClasses.SD;
-import InstructionClasses.SUBD;
-import InstructionClasses.SW;
+import instructions.ADDD;
+import instructions.AND;
+import instructions.ANDI;
+import instructions.BEQ;
+import instructions.BNE;
+import instructions.DADD;
+import instructions.DADDI;
+import instructions.DIVD;
+import instructions.DSUB;
+import instructions.DSUBI;
+import instructions.HLT;
+import instructions.Instruction;
+import instructions.J;
+import instructions.LD;
+import instructions.LW;
+import instructions.MULD;
+import instructions.OR;
+import instructions.ORI;
+import instructions.SD;
+import instructions.SUBD;
+import instructions.SW;
 
 
 public class Program {
@@ -68,7 +68,12 @@ public class Program {
 		Instruction inst = null;
 		String tokens[] = new String[5];
 		line = line.trim();
-
+		String sourceRegister1, sourceRegister2, destinationRegister;
+		String[] operands;
+		int offset;
+		int immediate;
+		
+		
 		/* CHECK IF IT HAS A LOOP */
 		if (line.contains(":")) {
 			int index = line.lastIndexOf(':');
@@ -84,64 +89,138 @@ public class Program {
 
 		switch (opcode) {
 		case "LW":
-			inst = new LW("LW", getOperands(tokens));
+			operands =  getOperands(tokens);
+			destinationRegister = operands[0];
+			offset = Integer.parseInt(operands[1].substring(0, operands[1].lastIndexOf('(')));
+			sourceRegister1 = operands[1].substring(operands[1].lastIndexOf('(')+1,operands[1].lastIndexOf(')'));
+			inst = new LW(sourceRegister1,destinationRegister,offset);			
 			break;
-		case "L.D":
-			inst = new LD("L.D", getOperands(tokens));
+		case "L.D":			
+			operands =  getOperands(tokens);
+			destinationRegister = operands[0];
+			offset = Integer.parseInt(operands[1].substring(0, operands[1].lastIndexOf('(')));
+			sourceRegister1 = operands[1].substring(operands[1].lastIndexOf('(')+1,operands[1].lastIndexOf(')'));
+			inst = new LD(sourceRegister1,destinationRegister,offset);
 			break;
-		case "SW":
-			inst = new SW("SW", getOperands(tokens));
+		case "SW":			
+			operands =  getOperands(tokens);
+			sourceRegister1 = operands[0];
+			offset = Integer.parseInt(operands[1].substring(0, operands[1].lastIndexOf('(')));
+			destinationRegister = operands[1].substring(operands[1].lastIndexOf('(')+1,operands[1].lastIndexOf(')'));
+			inst = new SW(sourceRegister1,destinationRegister,offset);
 			break;
-		case "S.D":
-			inst = new SD("S.D", getOperands(tokens));
+		case "S.D":			
+			operands =  getOperands(tokens);
+			sourceRegister1 = operands[0];
+			offset = Integer.parseInt(operands[1].substring(0, operands[1].lastIndexOf('(')));
+			destinationRegister = operands[1].substring(operands[1].lastIndexOf('(')+1,operands[1].lastIndexOf(')'));
+			inst = new SD(sourceRegister1,destinationRegister,offset);
 			break;
 		case "ADD.D":
-			inst = new ADDD("ADD.D", getOperands(tokens));
+			operands =  getOperands(tokens);
+			destinationRegister = operands[0];
+			sourceRegister1 = operands[1];
+			sourceRegister2 = operands[2];
+			inst = new ADDD(sourceRegister1,sourceRegister2, destinationRegister);
 			break;
 		case "SUB.D":
-			inst = new SUBD("SUB.D", getOperands(tokens));
+			operands =  getOperands(tokens);
+			destinationRegister = operands[0];
+			sourceRegister1 = operands[1];
+			sourceRegister2 = operands[2];
+			inst = new SUBD(sourceRegister1,sourceRegister2, destinationRegister);		
 			break;
 		case "MUL.D":
-			inst = new MULD("MUL.D", getOperands(tokens));
+			operands =  getOperands(tokens);
+			destinationRegister = operands[0];
+			sourceRegister1 = operands[1];
+			sourceRegister2 = operands[2];
+			inst = new MULD(sourceRegister1,sourceRegister2, destinationRegister);
 			break;
 		case "DIV.D":
-			inst = new DIVD("DIV.D", getOperands(tokens));
+			operands =  getOperands(tokens);
+			destinationRegister = operands[0];
+			sourceRegister1 = operands[1];
+			sourceRegister2 = operands[2];
+			inst = new DIVD(sourceRegister1,sourceRegister2, destinationRegister);
 			break;
 		case "DADD":
-			inst = new DADD("DADD", getOperands(tokens));
+			operands =  getOperands(tokens);
+			destinationRegister = operands[0];
+			sourceRegister1 = operands[1];
+			sourceRegister2 = operands[2];
+			inst = new DADD(sourceRegister1,sourceRegister2, destinationRegister);
 			break;
 		case "DADDI":
-			inst = new DADDI("DADDI", getOperands(tokens));
+			operands =  getOperands(tokens);
+			destinationRegister = operands[0];
+			sourceRegister1 = operands[1];
+			immediate = Integer.parseInt(operands[2]);
+			inst = new DADDI(sourceRegister1,destinationRegister, immediate);
 			break;
 		case "DSUB":
-			inst = new DSUB("DSUB", getOperands(tokens));
+			operands =  getOperands(tokens);
+			destinationRegister = operands[0];
+			sourceRegister1 = operands[1];
+			sourceRegister2 = operands[2];
+			inst = new DSUB(sourceRegister1,sourceRegister2, destinationRegister);
 			break;
 		case "DSUBI":
-			inst = new DSUBI("DSUBI", getOperands(tokens));
+			operands =  getOperands(tokens);
+			destinationRegister = operands[0];
+			sourceRegister1 = operands[1];
+			immediate = Integer.parseInt(operands[2]);
+			inst = new DSUBI(sourceRegister1,destinationRegister, immediate);
 			break;
 		case "AND":
-			inst = new AND("AND", getOperands(tokens));
+			operands =  getOperands(tokens);
+			destinationRegister = operands[0];
+			sourceRegister1 = operands[1];
+			sourceRegister2 = operands[2];
+			inst = new AND(sourceRegister1,sourceRegister2, destinationRegister);
 			break;
 		case "ANDI":
-			inst = new ANDI("ANDI", getOperands(tokens));
+			operands =  getOperands(tokens);
+			destinationRegister = operands[0];
+			sourceRegister1 = operands[1];
+			immediate = Integer.parseInt(operands[2]);
+			inst = new ANDI(sourceRegister1,destinationRegister, immediate);
 			break;
 		case "OR":
-			inst = new OR("OR", getOperands(tokens));
+			operands =  getOperands(tokens);
+			destinationRegister = operands[0];
+			sourceRegister1 = operands[1];
+			sourceRegister2 = operands[2];
+			inst = new OR(sourceRegister1,sourceRegister2, destinationRegister);
 			break;
 		case "ORI":
-			inst = new ORI("ORI", getOperands(tokens));
+			operands =  getOperands(tokens);
+			destinationRegister = operands[0];
+			sourceRegister1 = operands[1];
+			immediate = Integer.parseInt(operands[2]);
+			inst = new ORI(sourceRegister1,destinationRegister, immediate);
 			break;
 		case "BEQ":
-			inst = new BEQ("BEQ", getOperands(tokens));
+			operands =  getOperands(tokens);
+			destinationRegister = operands[0];
+			sourceRegister1 = operands[1];
+			sourceRegister2 = operands[2];
+			inst = new BEQ(sourceRegister1,sourceRegister2, destinationRegister);
 			break;
 		case "BNE":
-			inst = new BNE("BNE", getOperands(tokens));
+			operands =  getOperands(tokens);
+			destinationRegister = operands[0];
+			sourceRegister1 = operands[1];
+			sourceRegister2 = operands[2];
+			inst = new BNE(sourceRegister1,sourceRegister2, destinationRegister);
 			break;
 		case "HLT":
-			inst = new HLT("HLT", getOperands(tokens));
+			inst = new HLT();
 			break;
 		case "J":
-			inst = new J("J", getOperands(tokens));
+			operands =  getOperands(tokens);
+			destinationRegister = operands[0];
+			inst = new J(destinationRegister);
 			break;
 		default:// TODO throw exception
 			break;

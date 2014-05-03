@@ -5,17 +5,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/*
-import pipelineStages.Decode;
-import pipelineStages.Execute;
-import pipelineStages.Fetch;
-import pipelineStages.Memory;
-import pipelineStages.WriteBack;
-*/
+
+
+import program.Program;
+import stage.Decode;
+import stage.Execute;
+import stage.Fetch;
+import stage.WriteBack;
 import Exception.InCorrectInstructionFormat;
 
 //import InstructionClasses.Instruction;
-
 
 public class Processor {
 
@@ -36,19 +35,17 @@ public class Processor {
 	public static boolean registerAccessStatus[][] = new boolean[2][32];
 
 	// Pipeline stages    
-	/*
-	public static Fetch fetch = new Fetch(false);
-	public static Decode decode = new Decode(false);
-	public static Execute execute = new Execute(false);
-	public static Memory memory = new Memory(false);
-	public static WriteBack writeback = new WriteBack(false);
 	
-	public static Instruction iCache[][] = new Instruction[4][4];
-
-	*/
+	public static Fetch fetch = new Fetch();
+	public static Decode decode = new Decode();
+	public static Execute execute = new Execute();
+	public static WriteBack writeback = new WriteBack();
+		
 	
+	public static Parser parser;    // this shit is goin down
 	
-	public static Parser parser;
+	public static Program program;
+	
 	public static ArrayList<String> instructionFunctionalUnitMap;
 	public static HashMap<String, ArrayList<String>> instructionFunctionalUnit = new HashMap<String, ArrayList<String>>();
 
@@ -58,7 +55,9 @@ public class Processor {
 		setRegisterAccessStatus();
 
 		// 2. Set the parser
-		parser = new Parser();
+		//parser = new Parser();   // this line will be murdered
+		program =  new Program();
+		
 
 		// 3. We need to maintain a mapping of instructions to their respective
 		// functional units and get data from the files and set the functional
@@ -112,14 +111,16 @@ public class Processor {
 					instructionFunctionalUnitMap);
 			instructionFunctionalUnitMap
 					.removeAll(instructionFunctionalUnitMap);
-
-			parser.parse(CONFIGURATION_FILE, false, 2);
-			parser.parse(REGISTER_FILE, false, 3);
-			parser.parse(DATA_FILE, true, 4);
-
-			parser.parse(INSTRUCTION_FILE, false, 1);
+			
+			// this shit will be deleted
+			//parser.parse(CONFIGURATION_FILE, false, 2);
+			//parser.parse(REGISTER_FILE, false, 3);
+			//parser.parse(DATA_FILE, true, 4);
+			//parser.parse(INSTRUCTION_FILE, false, 1);
 			//parser.setFunctionalUnitParameters();
 
+			program.parse(INSTRUCTION_FILE);
+			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
