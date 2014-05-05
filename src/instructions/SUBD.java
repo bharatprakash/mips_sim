@@ -1,50 +1,31 @@
 package instructions;
 
-import java.util.ArrayList;
-import java.util.List;
+public class SUBD extends ThreeRegInstruction
+{
+    public SUBD(String sourceLabel1, String sourceLabel2,
+            String destinationLabel)
+    {
+        super(sourceLabel1, sourceLabel2, destinationLabel);
+        this.functionalUnitType = FunctionalUnitType.FPADD;
+        this.instructionType = InstructionType.ARITHMETIC_FPREG;
+    }
 
-public class SUBD extends Instruction {
+    public SUBD(SUBD obj)
+    {
+        super(obj);
+    }
 
-	String sourceLabel1;
-	String sourceLabel2;
-	String destinationLabel;
-	
-	long source1;
-	long source2;
-	long destination;
-	
-	public SUBD(String sourceLabel1, String sourceLabel2,
-			String destinationLabel) {
-		super();
-		this.sourceLabel1 = sourceLabel1;
-		this.sourceLabel2 = sourceLabel2;
-		this.destinationLabel = destinationLabel;
-	}
+    @Override
+    public String toString()
+    {
+        return "SUBD " + dest.getDestinationLabel() + ", "
+                + src1.getSourceLabel() + ", " + src2.getSourceLabel();
+    }
 
-	@Override
-	public List<String> getSourceRegister() {
-		List<String> sourceRegisterList = new ArrayList<String>();
-		
-		sourceRegisterList.add(this.sourceLabel1);
-		sourceRegisterList.add(this.sourceLabel2);
-		
-		return sourceRegisterList;
-	}
+    @Override
+    public void executeInstruction()
+    {
+        dest.setDestination(src1.getSource() - src2.getSource());
+    }
 
-	@Override
-	public String getDestinationRegister() {
-
-		return destinationLabel;
-	}
-	
-	@Override
-	public String toString() {
-		return "SUBD " +destinationLabel+" "+sourceLabel1 +" "+sourceLabel2;
-	}
-
-	@Override
-	public void executeInstruction() {
-		// TODO Auto-generated method stub
-		
-	}
 }

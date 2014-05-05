@@ -1,47 +1,30 @@
 package instructions;
 
-import java.util.ArrayList;
-import java.util.List;
+public class LD extends TwoRegImmediateInstruction
+{
+    public LD(String sourceLabel, String destinationLabel, int immediate)
+    {
+        super(sourceLabel, destinationLabel, immediate);
+        this.functionalUnitType = FunctionalUnitType.IU;
+        this.instructionType = InstructionType.MEMORY_FPREG;
+    }
 
-public class LD extends Instruction{
-	
-	String sourceLabel;
-	String destinationLabel;
-	long source;
-	long destination;
-	int immediate;
+    public LD(LD obj)
+    {
+        super(obj);
+    }
 
-	public LD(String sourceLabel, String desitnationLabel, int immediate) {
-		super();
-		this.sourceLabel = sourceLabel;
-		this.destinationLabel = desitnationLabel;
-		this.immediate = immediate;
-	}
+    @Override
+    public String toString()
+    {
+        return "LD " + dest.getDestinationLabel() + ", " + immediate + "("
+                + src1.getSourceLabel() + ")";
+    }
 
-	@Override
-	public List<String> getSourceRegister() {
-		List<String> sourceRegisterList = new ArrayList<String>();
-				sourceRegisterList.add(sourceLabel);
-		return sourceRegisterList;
-	}
+    @Override
+    public void executeInstruction()
+    {
+        this.address = immediate + src1.getSource();
+    }
 
-	@Override
-	public String getDestinationRegister() {
-		return destinationLabel;
-	}
-	
-	public int getImmediate(){
-		return immediate;
-	}
-
-	@Override
-	public String toString() {
-		return "LD" + destinationLabel +" "+immediate+"("+sourceLabel +")";
-	}
-
-	@Override
-	public void executeInstruction() {
-		// TODO Auto-generated method stub
-		
-	}
 }

@@ -1,56 +1,36 @@
 package instructions;
 
-import java.util.ArrayList;
-import java.util.List;
+public class ANDI extends TwoRegImmediateInstruction
+{
 
-public class ANDI extends Instruction{
+    public ANDI(String sourceLabel, String destinationLabel, int immediate)
+    {
+        super(sourceLabel, destinationLabel, immediate);
+        this.functionalUnitType = FunctionalUnitType.IU;
+        this.instructionType = InstructionType.ARITHMETIC_IMM;
+    }
 
-	String sourceLabel;
-	String destinationLabel;
-	
-	long source;
-	long destination;
+    public ANDI(ANDI obj)
+    {
+        super(obj);
+    }
 
-	int immediate;
-	
-	public ANDI(String sourceLabel, String destinationLabel, int immediate) {
-		super();
-		this.sourceLabel = sourceLabel;
-		this.destinationLabel = destinationLabel;
-		this.immediate = immediate;
-	}
+    public int getImmediate()
+    {
+        return this.immediate;
+    }
 
-	@Override
-	public List<String> getSourceRegister() {
+    @Override
+    public String toString()
+    {
+        return "ANDI " + dest.getDestinationLabel() + ", "
+                + src1.getSourceLabel() + ", " + immediate;
+    }
 
-		List<String> sourceRegisterList = new ArrayList<String>();
-		sourceRegisterList.add(this.sourceLabel);
-		return sourceRegisterList;
-	
-	}
+    @Override
+    public void executeInstruction()
+    {
+        dest.setDestination(src1.getSource() & immediate);
+    }
 
-	@Override
-	public String getDestinationRegister() {
-
-		return destinationLabel;
-	
-	}
-	
-	
-	public int getImmediate(){
-		
-		return this.immediate;
-		
-	}
-	
-	@Override
-	public String toString() {
-		return "ANDI " + destinationLabel +" "+ sourceLabel +" "+ immediate;
-	}
-
-	@Override
-	public void executeInstruction() {
-		// TODO Auto-generated method stub
-		
-	}
 }

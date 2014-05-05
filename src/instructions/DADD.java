@@ -1,50 +1,31 @@
 package instructions;
 
-import java.util.ArrayList;
-import java.util.List;
+public class DADD extends ThreeRegInstruction
+{
+    public DADD(String sourceLabel1, String sourceLabel2,
+            String destinationLabel)
+    {
+        super(sourceLabel1, sourceLabel2, destinationLabel);
+        this.functionalUnitType = FunctionalUnitType.IU;
+        this.instructionType = InstructionType.ARITHMETIC_REG;
+    }
 
-public class DADD extends Instruction{
+    public DADD(DADD obj)
+    {
+        super(obj);
+    }
 
-	String sourceLabel1;
-	String sourceLabel2;
-	String destinationLabel;
-	
-	long source1;
-	long source2;
-	long destination;
-	
-	public DADD(String sourceLabel1, String sourceLabel2,
-			String destinationLabel) {
-		super();
-		this.sourceLabel1 = sourceLabel1;
-		this.sourceLabel2 = sourceLabel2;
-		this.destinationLabel = destinationLabel;
-	}
+    @Override
+    public String toString()
+    {
+        return "DADD " + dest.getDestinationLabel() + ", "
+                + src1.getSourceLabel() + ", " + src2.getSourceLabel();
+    }
 
-	@Override
-	public List<String> getSourceRegister() {
-		List<String> sourceRegisterList = new ArrayList<String>();
-		
-		sourceRegisterList.add(this.sourceLabel1);
-		sourceRegisterList.add(this.sourceLabel2);
-		
-		return sourceRegisterList;
-	}
+    @Override
+    public void executeInstruction()
+    {
+        dest.setDestination(src1.getSource() + src2.getSource());
+    }
 
-	@Override
-	public String getDestinationRegister() {
-
-		return destinationLabel;
-	}
-	
-	@Override
-	public String toString() {
-		return "DADD " +destinationLabel+" "+sourceLabel1+" "+sourceLabel2;
-	}
-
-	@Override
-	public void executeInstruction() {
-		// TODO Auto-generated method stub
-		
-	}
 }

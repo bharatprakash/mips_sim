@@ -1,56 +1,31 @@
 package instructions;
 
-import java.util.ArrayList;
-import java.util.List;
+public class DADDI extends TwoRegImmediateInstruction
+{
 
-public class DADDI extends Instruction{
+    public DADDI(String sourceLabel, String destinationLabel, int immediate)
+    {
+        super(sourceLabel, destinationLabel, immediate);
+        this.functionalUnitType = FunctionalUnitType.IU;
+        this.instructionType = InstructionType.ARITHMETIC_IMM;
+    }
 
-	String sourceLabel;
-	String destinationLabel;
-	
-	long source;
-	long destination;
+    public DADDI(DADDI obj)
+    {
+        super(obj);
+    }
 
-	int immediate;
-	
-	public DADDI(String sourceLabel, String destinationLabel, int immediate) {
-		super();
-		this.sourceLabel = sourceLabel;
-		this.destinationLabel = destinationLabel;
-		this.immediate = immediate;
-	}
-	
-	
-	@Override
-	public List<String> getSourceRegister() {
+    @Override
+    public String toString()
+    {
+        return "DADDI " + dest.getDestinationLabel() + ", "
+                + src1.getSourceLabel() + ", " + immediate;
+    }
 
-		List<String> sourceRegisterList = new ArrayList<String>();
-		sourceRegisterList.add(this.sourceLabel);
-		return sourceRegisterList;
-	
-	}
-
-	@Override
-	public String getDestinationRegister() {
-
-		return destinationLabel;
-	
-	}
-	
-	
-	public int getImmediate(){
-		return this.immediate;
-	}
-	
-	@Override
-	public String toString() {
-		return "DADDI " +destinationLabel+" "+sourceLabel+" "+immediate;
-	}
-
-	@Override
-	public void executeInstruction() {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void executeInstruction()
+    {
+        dest.setDestination(src1.getSource() + immediate);
+    }
 
 }

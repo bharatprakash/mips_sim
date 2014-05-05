@@ -2,34 +2,52 @@ package instructions;
 
 import java.util.List;
 
-public class J extends Instruction{
-	
-	String destinationLabel;
-	
-	public J(String destinationLabel) {
-		super();
-		this.destinationLabel = destinationLabel;
-	}
+public class J extends Instruction
+{
 
-	@Override
-	public List<String> getSourceRegister() {
-		return null;
-	}
+    String destinationLabel;
 
-	@Override
-	public String getDestinationRegister() {
-		return destinationLabel;
-	}
-	
-	@Override
-	public String toString() {
-		return "J " +destinationLabel;
-	}
+    public J(String destinationLabel)
+    {
+        super();
+        this.destinationLabel = destinationLabel;
+        this.instructionType = InstructionType.JUMP;
+    }
 
-	@Override
-	public void executeInstruction() {
-		// TODO Auto-generated method stub
-		
-	}
+    public J(J obj)
+    {
+        super(obj);
+        setPrintableInstruction(obj.printableInstruction);
+        destinationLabel = obj.destinationLabel;
+    }
 
+    @Override
+    public List<SourceObject> getSourceRegister()
+    {
+        return null;
+    }
+
+    @Override
+    public WriteBackObject getDestinationRegister()
+    {
+        return null;
+    }
+
+    public String getDestinationLabel()
+    {
+        return destinationLabel;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "J " + destinationLabel;
+    }
+
+    @Override
+    public void executeInstruction()
+    {
+        // Do nothing here
+
+    }
 }

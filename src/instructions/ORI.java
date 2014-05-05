@@ -1,56 +1,31 @@
 package instructions;
 
-import java.util.ArrayList;
-import java.util.List;
+public class ORI extends TwoRegImmediateInstruction
+{
 
-public class ORI extends Instruction{
+    public ORI(String sourceLabel, String destinationLabel, int immediate)
+    {
+        super(sourceLabel, destinationLabel, immediate);
+        this.functionalUnitType = FunctionalUnitType.IU;
+        this.instructionType = InstructionType.ARITHMETIC_IMM;
+    }
 
-	String sourceLabel;
-	String destinationLabel;
-	
-	long source;
-	long destination;
+    public ORI(ORI obj)
+    {
+        super(obj);
+    }
 
-	int immediate;
-	
-	public ORI(String sourceLabel, String destinationLabel, int immediate) {
-		super();
-		this.sourceLabel = sourceLabel;
-		this.destinationLabel = destinationLabel;
-		this.immediate = immediate;
-	}
-	
-	@Override
-	public List<String> getSourceRegister() {
+    @Override
+    public String toString()
+    {
+        return "ORI " + dest.getDestinationLabel() + ", "
+                + src1.getSourceLabel() + ", " + immediate;
+    }
 
-		List<String> sourceRegisterList = new ArrayList<String>();
-		sourceRegisterList.add(this.sourceLabel);
-		return sourceRegisterList;
-	
-	}
+    @Override
+    public void executeInstruction()
+    {
+        dest.setDestination(src1.getSource() | immediate);
+    }
 
-	@Override
-	public String getDestinationRegister() {
-
-		return destinationLabel;
-	
-	}
-	
-	
-	public int getImmediate(){
-		
-		return this.immediate;
-		
-	}
-	
-	@Override
-	public String toString() {
-		return "ORI " + destinationLabel +" "+ sourceLabel +" "+ immediate;
-	}
-
-	@Override
-	public void executeInstruction() {
-		// TODO Auto-generated method stub
-		
-	}
 }
