@@ -6,9 +6,7 @@ public class ICacheBlock {
 	int tag;
 
 	public ICacheBlock() {
-		words = new int[4];
-		for(int i =0; i< 4; i++)
-			words[i] = -1;
-		tag = 1;
+		words = new int[4];		
+		tag = -1;
 	}
 }

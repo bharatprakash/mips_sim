@@ -17,26 +17,29 @@ public class ICache {
 
 	private ICache() {
 		
-		for(int i=0;i<4;i++){
-			ICacheBlock icb =  new ICacheBlock();
-			iCache[i] = icb;
-		}
+		//for(int i=0;i<4;i++){
+		//	ICacheBlock icb =  new ICacheBlock();
+		//	iCache[i] = icb;
+		//}
+		ICacheBlock[] iCache =  new ICacheBlock[4];
 		
 	}
 
 	public boolean isInstructionInCache(int pc) throws Exception {
 		
-		int wordIndex, blockIndex;
+		int blockIndex;
 		int pcounter = pc;
+		int tag;
 		
-		wordIndex = pcounter & 0b11;
 		pcounter = pcounter >> 2;
 		blockIndex = pcounter & 0b11;
-
-		ICacheBlock iBlock = this.iCache[blockIndex];
-
-		if (iBlock.words[wordIndex] == pc)
-			return true;
+		tag = pcounter >> 2;
+		
+		ICacheBlock iBlock = ICache.getInstance().iCache[blockIndex];  // this.iCache[blockIndex];
+		
+		if(iBlock != null)
+			if(iBlock.tag == tag)
+				return true;		
 
 		return false;
 
@@ -59,7 +62,10 @@ public class ICache {
 
 		pc = pc >> 2;
 		blockIndex = pc & 0b11;
-
+		
+		int tag = pc >> 2;
+		iblock.tag = tag;
+		
 		this.iCache[blockIndex] = iblock;
 
 	}
