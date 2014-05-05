@@ -18,7 +18,7 @@ public class MemoryBusManager
 	
 	public int getDelayFromBCM(){
 		
-		return 6;
+		return 0;
 		
 	}
 	

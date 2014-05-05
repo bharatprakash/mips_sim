@@ -2,7 +2,7 @@ package cache;
 
 public class ICache {
 
-	public ICacheBlock[] iCache;
+	public ICacheBlock[] iCache =  new ICacheBlock[4];
 	private static volatile ICache instance;
 
 	public static ICache getInstance() {
@@ -16,16 +16,22 @@ public class ICache {
 	}
 
 	private ICache() {
-		iCache = new ICacheBlock[4];
+		
+		for(int i=0;i<4;i++){
+			ICacheBlock icb =  new ICacheBlock();
+			iCache[i] = icb;
+		}
+		
 	}
 
 	public boolean isInstructionInCache(int pc) throws Exception {
-
+		
 		int wordIndex, blockIndex;
-
-		wordIndex = pc & 0b11;
-		pc = pc >> 2;
-		blockIndex = pc & 0b11;
+		int pcounter = pc;
+		
+		wordIndex = pcounter & 0b11;
+		pcounter = pcounter >> 2;
+		blockIndex = pcounter & 0b11;
 
 		ICacheBlock iBlock = this.iCache[blockIndex];
 

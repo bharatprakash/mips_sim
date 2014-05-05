@@ -51,7 +51,7 @@ public class ICacheManager {
 		clockCyclesToBlock = -1;
 		delayToBus = -1;
 		cacheHit = false;
-		
+
 	}
 
 	public Instruction getInstructionFromCache(int pc) throws Exception {
@@ -63,6 +63,7 @@ public class ICacheManager {
 				lastRequestInstruction = pc;
 				lastRequestCycle = CPU.CLOCK;
 				clockCyclesToBlock = ConfigManager.instance.ICacheLatency - 1;
+				cacheHit = true;
 
 				if (clockCyclesToBlock == 0) {
 
@@ -71,10 +72,6 @@ public class ICacheManager {
 
 				} else
 					return null;
-				
-				/*
-				 * if() return null else return instruction;
-				 */
 
 			} else {
 
@@ -92,7 +89,7 @@ public class ICacheManager {
 		} else {
 
 			if (CPU.CLOCK - lastRequestCycle == clockCyclesToBlock) {
-				if(!cacheHit)
+				if (!cacheHit)
 					ICache.getInstance().populateICache(pc);
 				resetValues();
 				return ProgramManager.instance.getInstructionAtAddress(pc);
