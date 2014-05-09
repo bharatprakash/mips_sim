@@ -8,14 +8,14 @@ public abstract class Stage
 
     public abstract void execute() throws Exception;
 
-    public abstract boolean checkIfFree(Instruction instruction)
+    public abstract boolean isStageFree(Instruction instruction)
             throws Exception;
 
-    public boolean checkIfFree() throws Exception
+    public boolean isStageFree() throws Exception
     {
-        return checkIfFree(null); // will throw exception for ExStage if used
+        return isStageFree(null); 
     }
-
+    
     public abstract boolean acceptInstruction(Instruction instruction)
             throws Exception;
 }

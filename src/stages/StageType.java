@@ -3,7 +3,7 @@ package stages;
 public enum StageType
 {
 
-    IFSTAGE(0), IDSTAGE(1), EXSTAGE(2), WBSTAGE(3);
+    IF(0), ID(1), EX(2), WB(3);
 
     private int id;
 

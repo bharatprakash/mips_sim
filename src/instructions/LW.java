@@ -6,8 +6,8 @@ public class LW extends TwoRegImmediateInstruction
     public LW(String sourceLabel, String destinationLabel, int immediate)
     {
         super(sourceLabel, destinationLabel, immediate);
-        this.functionalUnitType = FunctionalUnitType.IU;
-        this.instructionType = InstructionType.MEMORY_REG;
+        this.fu = FunctionalUnitType.IU;
+        this.iType = InstructionType.MEMORY_REG;
     }
 
     public LW(LW obj)

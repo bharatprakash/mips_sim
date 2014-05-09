@@ -6,8 +6,8 @@ public class ANDI extends TwoRegImmediateInstruction
     public ANDI(String sourceLabel, String destinationLabel, int immediate)
     {
         super(sourceLabel, destinationLabel, immediate);
-        this.functionalUnitType = FunctionalUnitType.IU;
-        this.instructionType = InstructionType.ARITHMETIC_IMM;
+        this.fu = FunctionalUnitType.IU;
+        this.iType = InstructionType.ARITHMETIC_IMM;
     }
 
     public ANDI(ANDI obj)

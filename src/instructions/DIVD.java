@@ -6,8 +6,8 @@ public class DIVD extends ThreeRegInstruction
             String destinationLabel)
     {
         super(sourceLabel1, sourceLabel2, destinationLabel);
-        this.functionalUnitType = FunctionalUnitType.FPDIV;
-        this.instructionType = InstructionType.ARITHMETIC_FPREG;
+        this.fu = FunctionalUnitType.FPDIV;
+        this.iType = InstructionType.ARITHMETIC_FPREG;
     }
 
     public DIVD(DIVD obj)

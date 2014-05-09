@@ -11,7 +11,7 @@ public class J extends Instruction
     {
         super();
         this.destinationLabel = destinationLabel;
-        this.instructionType = InstructionType.JUMP;
+        this.iType = InstructionType.JUMP;
     }
 
     public J(J obj)

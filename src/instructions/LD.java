@@ -5,8 +5,8 @@ public class LD extends TwoRegImmediateInstruction
     public LD(String sourceLabel, String destinationLabel, int immediate)
     {
         super(sourceLabel, destinationLabel, immediate);
-        this.functionalUnitType = FunctionalUnitType.IU;
-        this.instructionType = InstructionType.MEMORY_FPREG;
+        this.fu = FunctionalUnitType.IU;
+        this.iType = InstructionType.MEMORY_FPREG;
     }
 
     public LD(LD obj)

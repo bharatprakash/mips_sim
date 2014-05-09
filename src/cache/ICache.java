@@ -17,10 +17,6 @@ public class ICache {
 
 	private ICache() {
 		
-		//for(int i=0;i<4;i++){
-		//	ICacheBlock icb =  new ICacheBlock();
-		//	iCache[i] = icb;
-		//}
 		ICacheBlock[] iCache =  new ICacheBlock[4];
 		
 	}
